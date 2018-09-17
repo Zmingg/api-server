@@ -5,8 +5,10 @@ import {RepositoryService} from '../services';
 @Controller()
 export class RepositoryController {
 
-  constructor() {
-    this.repoService = RepositoryService;
+  private repoService: RepositoryService;
+
+  constructor(repoService: RepositoryService) {
+    this.repoService = new RepositoryService();
   }
 
   @Get("/repo")

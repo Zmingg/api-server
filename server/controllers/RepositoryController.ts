@@ -7,14 +7,13 @@ export class RepositoryController {
 
   private repoService: RepositoryService;
 
-  constructor(repoService: RepositoryService) {
+  constructor() {
     this.repoService = new RepositoryService();
   }
 
   @Get("/repo")
-  getRepo() {
-    console.log(this);
-    return this.repoService.list();
+  async getRepo() {
+    return await this.repoService.list();
   }
 
   // @Get("/users/:id")

@@ -1,13 +1,68 @@
-import {Repository} from 'nodegit';
-const repoPath = '/Users/zmingg/me/api-repository';
+import {Repository, Reference} from 'nodegit';
+import {promisify} from 'util';
+const fs = require('fs');
+const path = require('path');
+const repoConfig = require('../../repository.json');
+
+const readdir = promisify(fs.readdir);
+const stat = promisify(fs.stat);
 
 export default class RepositoryService {
 
-  constructor(){}
+  protected path: string;
+
+  constructor(){
+    this.path = process.cwd() + '/repository';
+  }
 
   async list() {
-    console.log(process.cwd())
-    const repo: Repository = await Repository.open(repoPath);
-    return repo;
+    const fileList: string[] = [];
+    const files = await readdir(this.path);
+
+    await Promise.all(files.map(async (file: string) => {
+      const filePath: string = path.resolve(this.path, file);
+      console.log(filePath)
+      const fileStat: any = await stat(filePath);
+      if (fileStat.isFile() && /^.+\.yaml$/.test(filePath)) {
+        fileList.push(file);
+      }
+    }));
+
+    return fileList;
   }
+
+  async fetch() {
+
+    const repo: Repository = await Repository.open(this.path);
+
+    const ref: Reference = await repo.getBranch('master');
+
+    const commit = await repo.getBranchCommit('master');
+
+    return Reference.list(repo);
+
+    // console.log(await repo.getStatus())
+    // try {
+    //   await repo.fetchAll({
+    //     callbacks: {
+    //       credentials: function (url: string, userName: string) {
+    //         const {username, password} = repoConfig.repository;
+    //
+    //         return Cred.userpassPlaintextNew(username, password);
+    //       }
+    //     }
+    //   });
+    //
+    //   const branch = await repo.getReference('master');
+    //   console.log(branch)
+    //
+    //   return branch;
+    //
+    // } catch (e) {
+    //   console.log(e);
+    //   return e;
+    // }
+
+  }
+
 }

@@ -11,9 +11,9 @@ export class RepositoryController {
     this.repoService = new RepositoryService();
   }
 
-  @Get("/repo")
+  @Get("/pull")
   async getRepo() {
-    return await this.repoService.list();
+    return await this.repoService.pull();
   }
 
   // @Get("/users/:id")

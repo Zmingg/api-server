@@ -1,4 +1,4 @@
-import {Repository, Reference} from 'nodegit';
+import {Repository, Reference, Clone} from 'nodegit';
 import {promisify} from 'util';
 const fs = require('fs');
 const path = require('path');
@@ -6,13 +6,33 @@ const repoConfig = require('../../repository.json');
 
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
+const repoPath = path.resolve('./repository');
 
 export default class RepositoryService {
 
   protected path: string;
 
   constructor(){
-    this.path = process.cwd() + '/repository';
+    this.path = path.resolve(repoPath, './git');
+  }
+
+  async pull() {
+    const isExist = await fs.existsSync(repoPath);
+    console.log(isExist)
+
+    if (!isExist) {
+      Clone.clone(repoConfig.repository, repoPath).then(
+        function(repository) {
+          // Use repository
+          repository.getBranchCommit('master').then(function(commit) {
+            // Use commit
+            console.log(commit);
+          });
+        },
+        function (err) {
+          console.log(err)
+      });
+    }
   }
 
   async list() {

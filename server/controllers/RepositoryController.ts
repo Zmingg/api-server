@@ -11,9 +11,14 @@ export class RepositoryController {
     this.repoService = new RepositoryService();
   }
 
-  @Get("/pull")
+  @Get("/api/pull")
   async getRepo() {
     return await this.repoService.pull();
+  }
+
+  @Get("/api/list")
+  async getList() {
+    return await this.repoService.list();
   }
 
   // @Get("/users/:id")

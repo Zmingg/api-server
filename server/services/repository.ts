@@ -13,7 +13,7 @@ export default class RepositoryService {
   protected path: string;
 
   constructor(){
-    this.path = path.resolve(repoPath, './git');
+    this.path = path.resolve(repoPath, './.git');
   }
 
   async pull() {
@@ -32,15 +32,26 @@ export default class RepositoryService {
         function (err) {
           console.log(err)
       });
+    } else {
+      Repository.open(this.path).then(function(repository) {
+        repository.getBranchCommit('master').then(function(commit) {
+          // Use commit
+          console.log(commit);
+        });
+      }, function (err) {
+        console.log(err)
+      })
     }
+
+    return true;
   }
 
   async list() {
     const fileList: string[] = [];
-    const files = await readdir(this.path);
+    const files = await readdir(repoPath);
 
     await Promise.all(files.map(async (file: string) => {
-      const filePath: string = path.resolve(this.path, file);
+      const filePath: string = path.resolve(repoPath, file);
       console.log(filePath)
       const fileStat: any = await stat(filePath);
       if (fileStat.isFile() && /^.+\.yaml$/.test(filePath)) {

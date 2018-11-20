@@ -15,7 +15,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
-      'vue': 'vue/dist/vue.js'
+      'vue': 'vue/dist/vue.esm.js'
     }
   },
   module: {
@@ -110,7 +110,7 @@ module.exports = {
   devServer: {
     contentBase: devMode ? __dirname : path.join(__dirname, 'dist'),
     host: '0.0.0.0',
-    port: '8080',
+    port: '8725',
     historyApiFallback: true,
     proxy: [{
       path: '/api',

@@ -2,37 +2,49 @@
   <div>
     <p>Api Server</p>
     <ul class="yaml-ul">
-      <li class="yaml-li" v-for="item in items">
-        {{ item }}
+      <li class="yaml-li" v-for="item in items" v-on:click="previewApi(item)">
+        {{ item.name }}
       </li>
     </ul>
   </div>
 </template>
 <script>
-  module.exports = {
-    data: function () {
-      return {
-        items: [1, 2]
-      }
+module.exports = {
+  data: function () {
+    return {
+      items: [1, 2]
+    }
+  },
+
+  mounted: function () {
+    this.getRepo();
+  },
+
+  methods: {
+    /**
+     * Get repository.
+     * @returns {Promise<void>}
+     */
+    getRepo: async function () {
+      const res = await fetch('/api/list');
+      this.items = await res.json();
     },
 
-    mounted: function () {
-      this.getRepo();
-    },
-
-    methods: {
-      /**
-       * Get repository.
-       * @returns {Promise<void>}
-       */
-      getRepo: async function () {
-        const res = await fetch('/api/list');
-        this.items = await res.json();
-      },
-
+    previewApi: function (item) {
+      console.log(item.url)
+      this.$router.history.push({
+        name: 'view',
+        params: {
+          name: item.name,
+          url: item.url
+        },
+        props: true
+      });
     }
 
   }
+
+}
 </script>
 <style scoped>
   .yaml-ul {

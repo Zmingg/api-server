@@ -44,7 +44,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "scripts": {
-    "start": "nodemon --exec \"ts-node index.ts\" --watch server --watch repository -e js,ts",
+    "start": "nodemon --exec \"ts-node index.ts\" --watch index.ts --watch server --watch repository -e js,ts",
     "build": "cd ui && webpack --mode production",
     "dev": "cd ui && webpack-dev-server --mode development"
   },

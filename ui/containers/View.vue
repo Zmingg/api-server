@@ -9,20 +9,20 @@
 <script>
 import SwaggerUI from 'swagger-ui';
 export default {
-  props: ['url'],
-
   data: function () {
     return {
       items: [1, 2]
     }
   },
 
-  created: function () {
-    console.log('created');
+  computed: {
+    url: function () {
+      const {name} = this.$router.history.current.params;
+      return `../schemas/${name}.yaml`
+    }
   },
 
   mounted: function () {
-    console.log(this.$router.history.current.params)
     this.initialize();
   },
 
@@ -33,10 +33,9 @@ export default {
      * @returns {Promise<void>}
      */
     initialize: function () {
-      console.log(this.$router.history.current.params)
       SwaggerUI({
         dom_id: '#ui',
-        url: this.$router.history.current.params.url
+        url: this.url
       })
     },
 

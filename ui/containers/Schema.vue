@@ -31,14 +31,11 @@ module.exports = {
     },
 
     previewApi: function (item) {
-      console.log(item.url)
       this.$router.history.push({
         name: 'view',
         params: {
           name: item.name,
-          url: item.url
-        },
-        props: true
+        }
       });
     }
 

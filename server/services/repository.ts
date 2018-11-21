@@ -6,7 +6,7 @@ const repoConfig = require('../../repository.json');
 
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
-const repoPath = path.resolve('./repository');
+const repoPath = path.resolve('./repository/schemas');
 
 export default class RepositoryService {
 

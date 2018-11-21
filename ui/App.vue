@@ -1,41 +1,10 @@
 <template>
-  <div>
-    <p>Api Server</p>
-    <ul class="yaml-ul">
-      <li class="yaml-li" v-for="item in items">
-        {{ item }}
-      </li>
+  <div id="app">
+    <h1>Api Server</h1>
+    <ul>
+      <li><router-link to="/">/</router-link></li>
+      <li><router-link to="/schema">/schema</router-link></li>
     </ul>
+    <router-view class="view"></router-view>
   </div>
 </template>
-<script>
-module.exports = {
-  data: function () {
-    return {
-      items: [1, 2]
-    }
-  },
-
-  mounted: function () {
-    this.getRepo();
-  },
-
-  methods: {
-    getRepo: async function () {
-      const res = await fetch('/api/list');
-      this.items = await res.json();
-    },
-
-  }
-
-}
-</script>
-<style scoped>
-.yaml-ul {
-
-}
-.yaml-li {
-  list-style-type: none;
-  cursor: pointer;
-}
-</style>

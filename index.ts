@@ -7,7 +7,9 @@ const serve = require('koa-static');
 const app = new Koa();
 
 // app.use() // you can configure it the way you want
-app.use(serve(path.resolve(__dirname + '/ui'), {}));
+
+app.use(serve(__dirname + '/repository'));
+
 
 useKoaServer(app, { // register created express server in routing-controllers
    controllers: [RepositoryController] // and configure it the way you need (controllers, validation, etc.)

@@ -14,9 +14,11 @@
     "nodegit": "^0.22.2",
     "reflect-metadata": "^0.1.12",
     "routing-controllers": "^0.7.7",
+    "swagger-ui": "^3.20.0",
     "typedi": "^0.8.0",
     "util": "^0.11.0",
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "@types/node": "^10.9.4",
@@ -42,7 +44,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "scripts": {
-    "start": "nodemon --exec \"ts-node index.ts\" --watch server --watch repository -e js,ts",
+    "start": "nodemon --exec \"ts-node index.ts\" --watch index.ts --watch server --watch repository -e js,ts",
     "build": "cd ui && webpack --mode production",
     "dev": "cd ui && webpack-dev-server --mode development"
   },

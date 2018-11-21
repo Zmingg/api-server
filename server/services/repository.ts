@@ -6,7 +6,7 @@ const repoConfig = require('../../repository.json');
 
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
-const repoPath = path.resolve('./repository');
+const repoPath = path.resolve('./repository/schemas');
 
 export default class RepositoryService {
 
@@ -47,15 +47,17 @@ export default class RepositoryService {
   }
 
   async list() {
-    const fileList: string[] = [];
+    const fileList: object[] = [];
     const files = await readdir(repoPath);
 
     await Promise.all(files.map(async (file: string) => {
       const filePath: string = path.resolve(repoPath, file);
-      console.log(filePath)
       const fileStat: any = await stat(filePath);
       if (fileStat.isFile() && /^.+\.yaml$/.test(filePath)) {
-        fileList.push(file);
+        fileList.push({
+          name: file.replace(/^(.+).yaml$/g, '$1'),
+          url: filePath
+        });
       }
     }));
 

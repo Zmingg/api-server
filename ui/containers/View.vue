@@ -36,8 +36,8 @@ export default {
      */
     initialize: function () {
       SwaggerUI({
-        dom_id: '#ui',
-        url: this.url
+        url: this.url,
+        dom_id: '#ui'
       })
     },
 

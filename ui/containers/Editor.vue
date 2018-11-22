@@ -4,10 +4,9 @@
   </div>
 </template>
 <script>
-import SwaggerEditor from 'swagger-editor';
-import 'swagger-editor/dist/swagger-editor.css';
-
-
+import SwaggerEditorBundle from '../swagger-editor/swagger-editor-bundle';
+import Standalone from '../swagger-editor/swagger-editor-standalone-preset';
+import 'swagger-editor/swagger-editor/swagger-editor.css';
 export default {
   data: function () {
     return {
@@ -33,8 +32,12 @@ export default {
      * @returns {Promise<void>}
      */
     initialize: function () {
-      SwaggerEditor({
+      SwaggerEditorBundle({
         url: this.url,
+        plugins: [
+          Standalone
+        ],
+        layout: 'StandaloneLayout',
         swagger2GeneratorUrl: "https://generator.swagger.io/api/swagger.json",
         oas3GeneratorUrl: "http://generator3.swagger.io/api/generator.json"
 

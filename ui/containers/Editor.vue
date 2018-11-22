@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <button v-on:click="redirectEditor">
-      Editor
-    </button>
-    <div id="ui">
-      eee
-    </div>
+  <div id="swagger-editor">
+    eee
   </div>
 </template>
 <script>
-import SwaggerUI from 'swagger-ui';
+import SwaggerEditor from 'swagger-editor';
+import 'swagger-editor/dist/swagger-editor.css';
+
+
 export default {
   data: function () {
     return {
@@ -35,22 +33,18 @@ export default {
      * @returns {Promise<void>}
      */
     initialize: function () {
-      SwaggerUI({
-        dom_id: '#ui',
-        url: this.url
+      SwaggerEditor({
+        url: this.url,
+        swagger2GeneratorUrl: "https://generator.swagger.io/api/swagger.json",
+        oas3GeneratorUrl: "http://generator3.swagger.io/api/generator.json"
+
       })
     },
-
-    redirectEditor: function () {
-      const {name} = this.$router.history.current.params;
-      this.$router.history.push({
-        name: 'editor',
-        params: {
-          name: name
-        }
-      });
-    }
 
   }
 }
 </script>
+
+<style>
+
+</style>

@@ -13,12 +13,14 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue', '.yaml'],
     alias: {
       'vue': 'vue/dist/vue.esm.js'
     }
   },
   module: {
+    unknownContextCritical: false,
+
     rules: [
       {
         test: /\.js|jsx$/,
@@ -120,5 +122,8 @@ module.exports = {
       target: 'http://localhost:3000',
     }]
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
+  node: {
+    fs: 'empty'
+  },
 };

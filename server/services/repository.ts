@@ -16,9 +16,11 @@ export default class RepositoryService {
     this.path = path.resolve(repoPath, './.git');
   }
 
+  /**
+   * Pull the latest version of master branch.
+   */
   async pull() {
     const isExist = await fs.existsSync(repoPath);
-    console.log(isExist)
 
     if (!isExist) {
       Clone.clone(repoConfig.repository, repoPath).then(
@@ -46,6 +48,9 @@ export default class RepositoryService {
     return true;
   }
 
+  /**
+   * List the repository.
+   */
   async list() {
     const fileList: object[] = [];
     const files = await readdir(repoPath);
@@ -64,38 +69,5 @@ export default class RepositoryService {
     return fileList;
   }
 
-  async fetch() {
-
-    const repo: Repository = await Repository.open(this.path);
-
-    const ref: Reference = await repo.getBranch('master');
-
-    const commit = await repo.getBranchCommit('master');
-
-    return Reference.list(repo);
-
-    // console.log(await repo.getStatus())
-    // try {
-    //   await repo.fetchAll({
-    //     callbacks: {
-    //       credentials: function (url: string, userName: string) {
-    //         const {username, password} = repoConfig.repository;
-    //
-    //         return Cred.userpassPlaintextNew(username, password);
-    //       }
-    //     }
-    //   });
-    //
-    //   const branch = await repo.getReference('master');
-    //   console.log(branch)
-    //
-    //   return branch;
-    //
-    // } catch (e) {
-    //   console.log(e);
-    //   return e;
-    // }
-
-  }
 
 }

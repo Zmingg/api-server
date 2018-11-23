@@ -50,4 +50,7 @@ export default {
 #swagger-editor .SplitPane.vertical {
   height: 100% !important;
 }
+.Pane.vertical {
+  overflow-y: auto;
+}
 </style>

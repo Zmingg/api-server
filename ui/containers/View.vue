@@ -1,11 +1,9 @@
 <template>
   <div>
-    <button v-on:click="redirectEditor">
-      Editor
-    </button>
-    <div id="ui">
-      eee
-    </div>
+    <v-btn color="primary" @click="redirectEditor">
+      <v-icon left dark small>build</v-icon>Edit
+    </v-btn>
+    <div id="ui">swagger-ui</div>
   </div>
 </template>
 <script>
@@ -54,3 +52,9 @@ export default {
   }
 }
 </script>
+<style>
+.swagger-ui .info,
+.swagger-ui .error {
+  background: inherit !important;
+}
+</style>

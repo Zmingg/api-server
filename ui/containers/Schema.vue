@@ -1,10 +1,16 @@
 <template>
   <div>
-    <p>Api Server</p>
+    <p>Api Server Root</p>
 
-    <v-treeview :items="items">
-
-    </v-treeview>
+    <template>
+      <v-treeview :items="items"
+                  hoverable
+                  :active.sync="active"
+                  activatable
+                  open-on-click
+                  item-key="name">
+      </v-treeview>
+    </template>
 
   </div>
 </template>
@@ -16,12 +22,28 @@ module.exports = {
         { text: 'Name', value: 'name' },
         { text: 'Last Update', value: 'lastUpdate' },
       ],
-      items: []
+      items: [],
+      active: [],
     }
   },
 
   mounted: function () {
     this.getRepo();
+  },
+
+  computed: {
+    selected () {
+      console.log(this.active)
+
+      if (this.active.length > 0) {
+        return this.active[0];
+      }
+      return undefined;
+    }
+  },
+
+  watch: {
+    selected: 'previewApi'
   },
 
   methods: {
@@ -34,11 +56,11 @@ module.exports = {
       this.items = await res.json();
     },
 
-    previewApi: function (item) {
+    previewApi: function (name) {
       this.$router.history.push({
         name: 'view',
         params: {
-          name: item.name,
+          name: name,
         }
       });
     }

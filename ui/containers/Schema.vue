@@ -1,18 +1,22 @@
 <template>
   <div>
     <p>Api Server</p>
-    <ul class="yaml-ul">
-      <li class="yaml-li" v-for="item in items" v-on:click="previewApi(item)">
-        {{ item.name }}
-      </li>
-    </ul>
+
+    <v-treeview :items="items">
+
+    </v-treeview>
+
   </div>
 </template>
 <script>
 module.exports = {
   data: function () {
     return {
-      items: [1, 2]
+      headers: [
+        { text: 'Name', value: 'name' },
+        { text: 'Last Update', value: 'lastUpdate' },
+      ],
+      items: []
     }
   },
 

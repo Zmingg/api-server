@@ -36,7 +36,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <router-view class="view"></router-view>
+    <router-view class="app-container"></router-view>
   </div>
 </template>
 <script>
@@ -56,14 +56,22 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 #app {
   width: 100%;
   height: 100%;
   font-weight: bold;
 }
-.view {
+.app-container {
   margin-left: 300px;
   padding: 20px;
+  position: relative;
+  height: 100%;
 }
 </style>

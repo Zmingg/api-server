@@ -5,8 +5,6 @@
 </template>
 <script>
 import SwaggerEditorBundle from '../swagger-editor/swagger-editor-bundle';
-import SwaggerEditorStandalone from '../swagger-editor/swagger-editor-standalone-preset';
-import '../swagger-editor/swagger-editor.css';
 export default {
   data: function () {
     return {
@@ -33,13 +31,7 @@ export default {
      */
     initialize: function () {
       SwaggerEditorBundle({
-        url: this.url,
-        plugins: [
-          SwaggerEditorStandalone
-        ],
-        layout: 'SwaggerEditorStandalone',
-        swagger2GeneratorUrl: "https://generator.swagger.io/api/swagger.json",
-        oas3GeneratorUrl: "http://generator3.swagger.io/api/generator.json"
+        url: this.url
       })
     },
 
@@ -48,5 +40,14 @@ export default {
 </script>
 
 <style>
-
+#swagger-editor,
+.swagger-container,
+#editor-wrapper,
+#swagger-editor #editor-wrapper #ace-editor {
+  padding: 0 !important;
+  height: 100% !important;
+}
+#swagger-editor .SplitPane.vertical {
+  height: 100% !important;
+}
 </style>

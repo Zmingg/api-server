@@ -2,18 +2,17 @@
   <div>
     <p class="title">Api Server Root</p>
 
-    <template>
-      <v-treeview :items="items"
-                  hoverable
-                  :active.sync="active"
-                  activatable
-                  open-on-click
-                  item-key="name">
-        <template slot="prepend" slot-scope="{ item, open, leaf }">
-          <v-icon>description</v-icon>
-        </template>
-      </v-treeview>
-    </template>
+    <v-treeview :items="items"
+                class="tree-view"
+                hoverable
+                :active.sync="active"
+                activatable
+                open-on-click
+                item-key="name">
+      <template slot="prepend" slot-scope="{ item, open, leaf }">
+        <v-icon>description</v-icon>
+      </template>
+    </v-treeview>
 
   </div>
 </template>
@@ -74,8 +73,13 @@ module.exports = {
 </script>
 <style scoped>
 p.title {
-  margin: 10px !important;
+  margin: 10px 0 !important;
   padding-bottom: 10px;
-  border-bottom: solid 1px #000000;
+}
+
+.tree-view {
+  padding: 20px 20px 20px 0;
+  border: solid 1px #9d9d9d;
+  border-radius: 2px;
 }
 </style>

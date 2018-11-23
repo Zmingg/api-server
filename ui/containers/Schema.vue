@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Api Server Root</p>
+    <p class="title">Api Server Root</p>
 
     <template>
       <v-treeview :items="items"
@@ -9,6 +9,9 @@
                   activatable
                   open-on-click
                   item-key="name">
+        <template slot="prepend" slot-scope="{ item, open, leaf }">
+          <v-icon>description</v-icon>
+        </template>
       </v-treeview>
     </template>
 
@@ -70,11 +73,9 @@ module.exports = {
 }
 </script>
 <style scoped>
-  .yaml-ul {
-
-  }
-  .yaml-li {
-    list-style-type: none;
-    cursor: pointer;
-  }
+p.title {
+  margin: 10px !important;
+  padding-bottom: 10px;
+  border-bottom: solid 1px #000000;
+}
 </style>

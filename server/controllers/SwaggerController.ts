@@ -1,9 +1,9 @@
-import {Controller, Param, Body, Get, Post, Put, Delete, QueryParam} from "routing-controllers";
+import {Req, Res, Controller, Get, QueryParam, Header, ContentType} from "routing-controllers";
 import {SwaggerService} from '../services';
 
 
 @Controller('/swagger')
-export class RepositoryController {
+export default class SwaggerController {
 
   private swaggerService: SwaggerService;
 
@@ -12,13 +12,19 @@ export class RepositoryController {
   }
 
   @Get("/code-gen")
-  async codeGen(@QueryParam('id') id: string,
-                @QueryParam('type') type: string,
+  @ContentType('application/octet-stream')
+  @Header('Content-Disposition', 'attachment')
+  async codeGen(@QueryParam('uri') uri: string,
                 @QueryParam('className') className: string
   ) {
-    // Todo: code generator
-    const code = await this.swaggerService.codeGen();
+    // code generator
+    const code =  await this.swaggerService.codeGen(uri);
 
+    // return response.sendFile(filePath);
+    return {
+      filename: className + '.ts',
+      attachment: code
+    };
   }
 
 

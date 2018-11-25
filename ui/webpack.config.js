@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -119,6 +119,9 @@ module.exports = {
       target: 'http://localhost:3000',
     }, {
       path: '/schemas',
+      target: 'http://localhost:3000',
+    }, {
+      path: '/swagger',
       target: 'http://localhost:3000',
     }]
   },

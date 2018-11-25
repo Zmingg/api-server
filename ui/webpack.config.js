@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -13,16 +13,18 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue', '.yaml'],
     alias: {
       'vue': 'vue/dist/vue.esm.js'
     }
   },
   module: {
+    unknownContextCritical: false,
+
     rules: [
       {
         test: /\.js|jsx$/,
-        exclude: /(node_modules)/,
+        exclude: /(node_modules|ui\/swagger-editor)/,
         use: {
           loader: 'babel-loader',
         }
@@ -118,7 +120,13 @@ module.exports = {
     }, {
       path: '/schemas',
       target: 'http://localhost:3000',
+    }, {
+      path: '/swagger',
+      target: 'http://localhost:3000',
     }]
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
+  node: {
+    fs: 'empty'
+  },
 };

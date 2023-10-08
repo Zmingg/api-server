@@ -2,6 +2,10 @@
   <div>
     <p class="title">Api Server Root</p>
 
+    <v-btn color="primary" @click="pullRepository">
+      <v-icon left dark small>sync</v-icon>Pull
+    </v-btn>
+
     <v-treeview :items="items"
                 class="tree-view"
                 hoverable
@@ -17,7 +21,8 @@
   </div>
 </template>
 <script>
-module.exports = {
+import axios from 'axios';
+export default {
   data: function () {
     return {
       headers: [
@@ -54,8 +59,16 @@ module.exports = {
      * @returns {Promise<void>}
      */
     getRepo: async function () {
-      const res = await fetch('/api/list');
-      this.items = await res.json();
+      const query = this.$router.history.current.query;
+      console.log(this.$router.history.current)
+      const res = await axios.get('/api/list', { params: query });
+      this.items = res.data || [];
+    },
+
+    pullRepository: async function () {
+      const res = await fetch('/api/pull');
+      console.log(res)
+      // this.items = await res.json();
     },
 
     previewApi: function (name) {

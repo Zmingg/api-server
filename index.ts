@@ -1,5 +1,5 @@
-import "reflect-metadata";
-import {useKoaServer} from "routing-controllers";
+import 'reflect-metadata';
+import { useKoaServer } from 'routing-controllers';
 const path = require('path');
 const Koa = require('koa');
 const serve = require('koa-static');

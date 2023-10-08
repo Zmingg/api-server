@@ -1,8 +1,8 @@
-import {Controller, Param, Body, Get, Post, Put, Delete} from "routing-controllers";
+import {Controller, Param, Body, Get, Post, Put, Delete, QueryParam} from "routing-controllers";
 import {RepositoryService} from '../services';
 
 @Controller('/api')
-export default class RepositoryController {
+class RepositoryController {
 
   private repoService: RepositoryService;
 
@@ -16,10 +16,15 @@ export default class RepositoryController {
   }
 
   @Get("/list")
-  async getList() {
-    return await this.repoService.list();
+  async getList(
+    @QueryParam("repo") repo: string = 'default',
+    @QueryParam("dir") dir: string,
+  ) {
+    return await this.repoService.list(repo, dir);
   }
 
 
 
 }
+
+export default RepositoryController;

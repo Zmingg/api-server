@@ -14,8 +14,10 @@ export default {
 
   computed: {
     url: function () {
-      const {name} = this.$router.history.current.params;
-      return `../schemas/${name}.yaml`
+      
+      const {name, url} = this.$router.history.current.params;
+      return url;
+      // return `../schemas/${name}.yaml`
     }
   },
 

@@ -1,4 +1,4 @@
-import {Repository, Reference, Clone} from 'nodegit';
+import {Repository, Cred, Clone} from 'nodegit';
 import {promisify} from 'util';
 const fs = require('fs');
 const path = require('path');
@@ -6,42 +6,52 @@ const repoConfig = require('../../repository.json');
 
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
-const repoPath = path.resolve('./repository/schemas');
 
 export default class RepositoryService {
 
-  protected path: string;
+  protected name = 'default';
 
-  constructor(){
-    this.path = path.resolve(repoPath, './.git');
-  }
+  protected repoPath = path.resolve('./repository', this.name);
+
+  protected gitPath = path.resolve(this.repoPath, './.git');;
 
   /**
    * Pull the latest version of master branch.
    */
   async pull() {
-    const isExist = await fs.existsSync(repoPath);
+    const isExist = await fs.existsSync(this.gitPath);
+
+    const cloneOpts = {
+      fetchOpts: {        
+        callbacks: {
+          certificateCheck: function() { return 0; },
+          credentials: function(url: string, userName: string) {
+            return Cred.sshKeyNew(userName, '/Users/zmingg/.ssh/gitlab_rsa.pub', '/Users/zmingg/.ssh/gitlab_rsa', '');
+          }
+        }
+      }
+    }
 
     if (!isExist) {
-      Clone.clone(repoConfig.repository, repoPath).then(
-        function(repository) {
-          // Use repository
-          repository.getBranchCommit('master').then(function(commit) {
-            // Use commit
-            console.log(commit);
-          });
-        },
-        function (err) {
-          console.log(err)
-      });
+        Clone.clone(repoConfig.repository, this.repoPath, cloneOpts).then(
+          function(repository) {
+            // Use repository
+            repository.getBranchCommit('master').then(function(commit) {
+              // Use commit
+              console.log(commit);
+            });
+          },
+          function (err) {
+            console.log('Clone err', err)
+        });
     } else {
-      Repository.open(this.path).then(function(repository) {
+      Repository.open(this.gitPath).then(function(repository) {
         repository.getBranchCommit('master').then(function(commit) {
           // Use commit
           console.log(commit);
         });
       }, function (err) {
-        console.log(err)
+        console.log(err.msg)
       })
     }
 
@@ -51,20 +61,46 @@ export default class RepositoryService {
   /**
    * List the repository.
    */
-  async list() {
-    const fileList: object[] = [];
-    const files = await readdir(repoPath);
+  async list(repoName: string, dir: string = '.') {
+    const basePath = path.resolve(dir, repoName);
+    console.log(basePath)
 
-    await Promise.all(files.map(async (file: string) => {
-      const filePath: string = path.resolve(repoPath, file);
-      const fileStat: any = await stat(filePath);
-      if (fileStat.isFile() && /^.+\.yaml$/.test(filePath)) {
-        fileList.push({
-          name: file.replace(/^(.+).yaml$/g, '$1'),
-          url: filePath
-        });
-      }
-    }));
+    const findDocs = async (basePath: string) => {
+      const fileList: object[] = [];
+
+      const files = await readdir(dir);
+
+      await Promise.all(files.map(async (file: string) => {
+        console.log(file)
+        const filePath: string = path.resolve(dir, file);
+        const filePathAbsolute = path.resolve(basePath, filePath);
+
+        console.log(filePath, filePathAbsolute)
+
+        const fileStat: any = await stat(filePathAbsolute);
+        if (fileStat.isFile() && /^.+\.yaml$/.test(filePath)) {
+          fileList.push({
+            name: file.replace(/^(.+).yaml$/g, '$1'),
+            url: filePath,
+            isDir: false
+          });
+        }
+        // else if (fileStat.isDirectory()) {
+        //   const files = await findDocs(filePath);
+        //   fileList.push({
+        //     url: filePath,
+        //     isDir: true,
+        //     // children: files
+        //   })
+        // }
+      }));
+
+      return fileList;
+    }
+
+
+    const fileList = await findDocs(basePath);
+
 
     return fileList;
   }
